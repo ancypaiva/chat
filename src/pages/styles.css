@@ -1,0 +1,410 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Login & SignUp */
+.form-container {
+    background-color: #4e28a1;
+    padding: 2rem;
+}
+
+.row {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.main_div {
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.heading {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.form {
+    margin-bottom: 0.75rem;
+}
+
+.bottom {
+    margin-top: 0.75rem;
+}
+
+.top {
+    margin-bottom: 0.75rem;
+}
+
+.button {
+    background-color: #4e28a1 !important;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding:5px 10px;
+}
+
+.button:hover {
+    background-color: #021712 !important;
+}
+
+.bottom1 {
+    font-weight: bold;
+    color: black;
+}
+
+.bottom2 {
+    text-align: center;
+}
+
+/* Home */
+.home-container {
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+}
+
+/* Sidebar */
+.sidebar {
+    border-right: 1px solid white;
+    background-color: #6641b5;
+    display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+.sidebar-footer {
+    margin-top: auto; 
+    display: block;
+  }
+/* Chat */
+.chat {
+    flex: 2;
+    background-color: white;
+}
+
+.chat .chatInfo {
+    height: 50px;
+    background-color: #6641b5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    color: lightgray;
+}
+
+.chat .chatIcons {
+    display: flex;
+    gap: 10px;
+
+    img {
+        height: 24px;
+        cursor: pointer;
+        margin-left: auto;
+    }
+    
+}
+.chat .chatMessage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    background-color: #f1ebff;    font-weight: bolder;
+}
+.chat img{
+    width: 30%;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #9068e6;
+    height: 50px;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.navbar .user {
+    display: flex;
+    gap: 10px;
+}
+
+.navbar .logo {
+    font-weight: bold;
+    color: white;
+}
+
+.navbar img {
+    background-color: white;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Search */
+.search {
+    border-bottom: 1px solid gray;
+}
+
+.searchForm input {
+    background-color: transparent;
+    border: none;
+    color: black;
+    outline: none;
+    padding: 10px;
+}
+
+.searchForm input::placeholder {
+    color: lightgray;
+}
+
+.searchForm{
+    display: flex;
+    justify-content: space-between;
+}
+
+.userListContainer {
+    max-height: 300px; /* Set the maximum height for scrolling */
+    overflow-y: auto; /* Add vertical scrolling if needed */
+  }
+
+
+/* User Chat */
+.userchat {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.userchat img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.userchat .userChatInfo span {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.userchat .userChatInfo p {
+    font-size: 14px;
+    color: lightgray;
+}
+.userChatInfo{
+    margin-left: auto;
+
+}
+/* Chats */
+.chats {
+    background-color: #6641b5;
+    right: 0;
+}
+
+.chats .userchat {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2a3f31;
+    cursor: pointer;
+}
+
+.chats .userchat img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chats .userchat .userChatInfo span {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.chats .userchat .userChatInfo p {
+    font-size: 14px;
+    color: lightgray;
+}
+
+/* Messages */
+.messages {
+    background-color: #f1ebff;
+    padding: 10px;
+    height: calc(100% - 100px);
+    overflow: scroll;
+}
+
+.messages .message {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.messages .message .messageInfo {
+    display: flex;
+    flex-direction: column;
+    color: gray;
+    font-weight: 300;
+}
+
+.messages .message .messageInfo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.messages .message .messageContent {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.messages .message .messageContent p {
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 0px 10px 10px 10px;
+    max-width: max-content;
+}
+
+.messages .message .messageContent img {
+    width: 50%;
+}
+
+.messages .message.owner {
+    flex-direction: row-reverse;
+}
+
+.messages .message.owner .messageContent {
+    align-items: flex-end;
+    p {
+        background-color: #e1d3ff;
+        color: black;
+        border-radius: 10px 0px 10px 10px;
+    }
+}
+
+/* Input */
+.input {
+    height: 50px;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input input {
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #2f2d52;
+    font-size: 18px;
+}
+
+.input input::placeholder {
+    color: lightgray;
+}
+
+.input .send {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input .send img {
+    height: 24px;
+    cursor: pointer;
+    width: auto;
+}
+
+.input .send button {
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    background-color: #4e28a1;
+    cursor: pointer;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    /* Adjustments for screens up to 768px in width */
+
+    .row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .form-container {
+        padding: 1rem;
+    }
+
+    .main_div {
+        margin: 0.75rem 0;
+    }
+
+    .form {
+        margin-bottom: 0.5rem;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    /* Add more responsive adjustments as needed */
+}
+
+@media screen and (max-width: 992px) {
+    .navbar{
+        display: block;
+    }
+}
+
+/* MainPage */
+.flora-title{
+    font-family: 'Mrs Saint Delafield', cursive;
+    font-weight: bold;
+
+}
+
+.header{
+    background-color: #4e28a1;
+}
+.buttons{
+    background-color: #4e28a1 !important;
+    border: none;
+}
+
+/*Profile*/
+.profile .navbar{
+    display: flex;
+}
+
+.sidebar .profile p{
+    margin-bottom: 0rem;
+}
+
