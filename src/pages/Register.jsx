@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
 import { auth, storage, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import "./styles.css";
@@ -38,7 +42,7 @@ const Register = () => {
       );
       const date = new Date().getTime();
       const storageRef = ref(storage, `${displayName + date}`);
-      console.log(displayName, "displayname");
+      //console.log(displayName, "displayname");
       await uploadBytesResumable(storageRef, file).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           try {
@@ -47,6 +51,10 @@ const Register = () => {
               displayName: displayName,
               photoURL: downloadURL,
             });
+            await sendEmailVerification(response.user);
+            alert(
+              "Verification email sent! Please check your email and then log in."
+            );
             //create user on firestore
             const user = await setDoc(doc(db, "users", response.user.uid), {
               uid: response.user.uid,
@@ -57,9 +65,9 @@ const Register = () => {
 
             //create empty user chats on firestore
             await setDoc(doc(db, "userChats", response.user.uid), {});
-            navigate("/home");
+            navigate("/login");
           } catch (error) {
-            console.log(error);
+            //console.log(error);
             setError(true);
             setLoading(false);
           }

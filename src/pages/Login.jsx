@@ -20,13 +20,28 @@ const Login = () => {
       setValidated(true);
       return;
     }
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/home");
-    } catch (error) {
-      setError(true);
-      console.log(error, "error");
+    async function isEmailVerified(user) {
+      await user.reload(); 
+      return user.emailVerified;
     }
+    async function signInAndNavigate(auth, email, password) {
+      try {
+        const response = await signInWithEmailAndPassword(auth, email, password);
+        const emailVerified = await isEmailVerified(response.user);
+    
+        if (emailVerified) {
+          navigate("/home");
+        } else {
+          alert('Email not verified. Please verify your email before logging in.');
+        }
+      } catch (error) {
+        console.error('Error signing in:', error);
+        alert('An error occurred while signing in.');
+      }
+    }
+    
+    // Call signInAndNavigate with your authentication object and user credentials
+    signInAndNavigate(auth, email, password);
   };
   return (
     <div className="form-container">
@@ -95,7 +110,8 @@ const Login = () => {
                     <div className="bottom">
                       <p className="bottom2">
                         Don't have an account??{" "}
-                        <Link to="/register">Register</Link>
+                        <Link to="/register">Register</Link><br/>
+                        <Link to="/resetpassword">Forgot Password</Link>
                       </p>
                     </div>
                   </div>

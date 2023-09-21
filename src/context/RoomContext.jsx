@@ -11,7 +11,7 @@ export const RoomContextProvider = ({ children }) => {
   };
 
   const RoomReducer = (state, action) => {
-    console.log("action payload", action.payload);
+    //console.log("action payload", action.payload);
     switch (action.type) {
       case "CHANGE_ROOM":
         return {

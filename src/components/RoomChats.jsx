@@ -23,11 +23,11 @@ const RoomChats = () => {
       querySnapshot.forEach((doc) => {
         roomsArray.push(doc.data());
       });
-      console.log("room array", roomsArray);
+      //console.log("room array", roomsArray);
       setRoom(roomsArray);
     } catch (error) {
       setError(true);
-      console.log(error, "error");
+      //console.log(error, "error");
     }
   };
 
@@ -35,19 +35,19 @@ const RoomChats = () => {
     getAllRooms();
   }, []);
 
-  console.log("room--------", room);
+  //console.log("room--------", room);
   const handleSelect = async (u) => {
     dispatch({ type: "CHANGE_ROOM", payload: u });
     const RoomId = data.RoomId;
-    console.log(RoomId, "roomId");
+    //console.log(RoomId, "roomId");
     try {
-      console.log(RoomId, "check combinedid");
+      //console.log(RoomId, "check combinedid");
       const response = await getDoc(doc(db, "chats", RoomId));
       if (!response.exists()) {
         //create a chat in chats collection
         await setDoc(doc(db, "chats", RoomId), { messages: [] });
         //create user chats
-        console.log("currentuser id in search", currentUser.uid);
+        //console.log("currentuser id in search", currentUser.uid);
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [RoomId + ".userInfo"]: {
             uid: user.uid,
@@ -56,7 +56,7 @@ const RoomChats = () => {
           },
           [RoomId + ".date"]: serverTimestamp(),
         });
-        console.log("users id in search", user.uid);
+        //console.log("users id in search", user.uid);
         await updateDoc(doc(db, "userChats", user.uid), {
           [RoomId + ".userInfo"]: {
             uid: currentUser.uid,
@@ -73,12 +73,15 @@ const RoomChats = () => {
   return (
     <div className="">
       {room.map((rooms) => (
-        <div className="userchat" key={rooms[0]} onClick={() => handleSelect(rooms)}>
-         <img src={rooms.photoURL} alt="" />
-          <ul style={{ listStyle: 'none' }}>
+        <div
+          className="userchat"
+          key={rooms[0]}
+          onClick={() => handleSelect(rooms)}
+        >
+          <img src={rooms.photoURL} alt="" />
+          <ul style={{ listStyle: "none" }}>
             {" "}
-            
-            <li style={{color:'white'}}>{rooms.room_name}</li>
+            <li style={{ color: "white" }}>{rooms.room_name}</li>
           </ul>
         </div>
       ))}

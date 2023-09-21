@@ -8,6 +8,7 @@ import {
   doc,
   getDoc,
   updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
@@ -20,7 +21,7 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Search = () => {
+const SearchRequest = () => {
   const [username, setUsername] = useState("");
   const [pending, setPending] = useState(false);
   const [friendList, setFriendList] = useState([]);
@@ -29,8 +30,9 @@ const Search = () => {
   const [error, setError] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+  //console.log(data, "dta");
   const handleAddFriend = async (id) => {
-    console.log(id, "id");
+    //console.log(id, "id");
     setPending(true);
     await updateDoc(doc(db, "users", id), {
       pendingFriends: arrayUnion(currentUser.uid),
@@ -38,50 +40,56 @@ const Search = () => {
     await updateDoc(doc(db, "users", currentUser.uid), {
       sentFriendRequests: arrayUnion(id),
     });
+    setPending(false);
   };
   const handleSearch = async () => {
     const q = query(collection(db, "users"));
     try {
       const querySnapshot = await getDocs(q);
       const allUsers = [];
+      let friendList = [];
       const response = await getDoc(doc(db, "users", currentUser.uid));
 
-
-      const friendList = [currentUser.uid, ...response.data().friendList];
+      //console.log("response---", response.data());
+      if (response?.data()?.friendList) {
+        friendList = [currentUser.uid, ...response?.data()?.friendList];
+      }
 
       querySnapshot.forEach((doc) => {
         const userData = doc.data();
-      
-        // Check if the user is not the current user and is not in the friendList
-        if (userData.uid !== currentUser.uid && !friendList.includes(userData.uid)) {
+
+        if (
+          userData.uid !== currentUser.uid &&
+          !friendList.includes(userData.uid)
+        ) {
           allUsers.push(userData);
         }
       });
 
       // The allUsers array now contains usernames not in friendList
-      console.log(allUsers, "list");
+      //console.log(allUsers, "list");
       // Filter users based on the search term using regex
-      const regex = new RegExp(searchTerm, "i"); // "i" for case-insensitive search
-      const matchingUsers = allUsers.filter((user) =>
-        regex.test(user.displayName)
-      );
+      // const regex = new RegExp(searchTerm, "i"); // "i" for case-insensitive search
+      // const matchingUsers = allUsers.filter((user) =>
+      //   regex.test(user.displayName)
+      // );
 
-      console.log("response ----", matchingUsers);
-      setUsers(matchingUsers); // Update the state with found users
+     
+
+      //console.log("response ----", matchingUsers);
+      setUsers(allUsers); // Update the state with found users
     } catch (error) {
       setError(true);
-      console.log(error, "error");
+      //console.log(error, "error");
     }
   };
 
-  //   const handleKey = (e) => {
-  //     if (e.code === "Enter" || e.keyCode === 13) {
-  //       handleSearch();
-  //     }
-  //   };
+  const filteredUsers = users.filter((user) =>
+  user.displayName.toLowerCase().includes(searchTerm.toLowerCase())
+);
   useEffect(() => {
     handleSearch();
-  }, [username]);
+  }, [username, pending]);
   const handleSelect = async (user) => {
     // Your existing logic for selecting and creating chats
   };
@@ -95,42 +103,44 @@ const Search = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
         />
-        <button className={"button"} onClick={handleSearch}>
-          Search
-        </button>
       </div>
-      {error && <span>User not Found</span>}
-      <div className="userListContainer">
+      {/* {error && <span>User not Found</span>} */}
+      <div>
         <div className="userList">
-          {users.map((user) => (
-            <div
-              key={user.uid}
-              className="userchat"
-              onClick={() => handleSelect(user)}
-            >
-              <img src={user.photoURL} alt="" />
+          <div
+            className="userListContainer"
+            style={{ maxHeight: "300px", overflowY: "auto" }}
+          >
+            {filteredUsers.map((user) => (
+              <div
+                key={user.uid}
+                className="userchat"
+                onClick={() => handleSelect(user)}
+              >
+                <img src={user.photoURL} alt="" />
                 <span style={{ color: "black" }}>{user.displayName}</span>
-              <div className="userChatInfo ">
-                <Button
-                // className="button"
-                      onClick={() => handleAddFriend(data.user.uid)}
-                      disabled={pending}
-                    >
-                      {pending ? (
-                        "Pending"
-                      ) : friendList.includes(data.user.uid) ? (
-                        "friends"
-                      ) : (
-                        <FontAwesomeIcon icon={faUserPlus} />
-                      )}
-                    </Button>
+                <div className="userChatInfo ">
+                  <Button
+                    style={{ backgroundColor: "#4e28a1" }}
+                    onClick={() => handleAddFriend(user.uid)}
+                    disabled={user?.pendingFriends?.includes(currentUser.uid)}
+                  >
+                    {user?.pendingFriends?.includes(currentUser.uid) ? (
+                      "Pending"
+                    ) : friendList.includes(data.user.uid) ? (
+                      "friends"
+                    ) : (
+                      <FontAwesomeIcon icon={faUserPlus} />
+                    )}
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Search;
+export default SearchRequest;

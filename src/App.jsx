@@ -8,22 +8,23 @@ import Login from "./pages/Login";
 import Home from "./pages/Home ";
 import Register from "./pages/Register";
 import { AuthContext } from "./context/AuthContext";
-import { Children, useContext } from "react";
-import Room from "./components/Room";
+import { useContext } from "react";
 import MainRoom from "./components/MainRoom";
 import MainPage from "./components/MainPage";
 import Header from "./components/Header";
 import Profile from "./components/Profile";
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
-  const { currentUser } = useContext(AuthContext);
-  // console.log(currentUser, "current");
-  const ProtectedRoute = ({ currentUser }) => {
+  function ProtectedRoute({ children }) {
+    const { currentUser } = useContext(AuthContext);
     if (!currentUser) {
       return <Navigate to="/login" />;
+    
     }
-    return Children
-  };
+    return children;
+  }
+  
   return (
     <div>
       <BrowserRouter>
@@ -32,17 +33,16 @@ function App() {
             <Route
               index
               element={
-                // <ProtectedRoute>
                   <MainPage />
-                // {/* </ProtectedRoute> */}
               }
             />
-            <Route path="home" element={<Home />} />
+            <Route path="home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="mainroom" element={<MainRoom />} />
             <Route path="header" element={<Header />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="resetpassword" element={<ForgotPassword />} />
           </Route>
         </Routes>
       </BrowserRouter>

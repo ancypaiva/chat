@@ -22,15 +22,13 @@ const Input = () => {
   // const [error,setError] = useState(false)
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
+
+  //console.log("data in input", data);
+  //console.log("current user in input", currentUser);  
   const handleSend = async () => {
     const response = await getDoc(doc(db, "users", currentUser.uid));
     if (response.data()?.friendList?.includes(data.user.uid)) {
-      console.log(
-        response.data().friendList,
-        currentUser.uid,
-        data.user.uid,
-        "check data"
-      );
+    
       if (image) {
         const storageRef = ref(storage, uuid());
 
@@ -38,16 +36,15 @@ const Input = () => {
         uploadTask.on(
           (error) => {
             setError(true);
-            console.log(error, "error");
+            //console.log(error, "error");
           },
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then(
               async (downloadURL) => {
-                await (doc(db, "chats", data.chatId),
+                await updateDoc(doc(db, "chats", data.chatId),
                 {
                   messages: arrayUnion({
                     id: uuid(),
-                    text,
                     senderId: currentUser.uid,
                     date: Timestamp.now(),
                     image: downloadURL,
@@ -58,26 +55,28 @@ const Input = () => {
           }
         );
       } else if (text !== "") {
+        const text1= text;
+        setText('');
         console.log("chat id in input", data.chatId);
         await updateDoc(doc(db, "chats", data.chatId), {
           messages: arrayUnion({
             id: uuid(),
-            text,
+            text:text1,
             senderId: currentUser.uid,
             date: Timestamp.now(),
           }),
         });
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [data.chatId + ".lastMessage"]: {
-            text,
+            text:text1,
           },
           [data.chatId + ".date"]: serverTimestamp(),
         });
-        console.log(data, "doc");
-        console.log(data.user.uid, data.chatId, text, "check");
+        //console.log(data, "doc");
+        //console.log(data.user.uid, data.chatId, text, "check");
         await updateDoc(doc(db, "userChats", data.user.uid), {
           [data.chatId + ".lastMessage"]: {
-            text,
+            text:text1,
           },
           [data.chatId + ".date"]: serverTimestamp(),
         });

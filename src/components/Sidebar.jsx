@@ -26,7 +26,7 @@ const Sidebar = () => {
   const [displayName, setDisplayName] = useState(currentUser.displayName);
   const [email, setEmail] = useState(currentUser.email);
   const [selectedImage, setSelectedImage] = useState(null);
-  console.log(email, displayName);
+  //console.log(email, displayName);
   const handleClose = () => setShow(false);
   const handleCloseRequest = () => setShowRequest(false);
   const handleUpdate = async () => {
@@ -61,7 +61,7 @@ const Sidebar = () => {
             });
             setSelectedImage(null);
           } catch (error) {
-            console.log(error);
+            //console.log(error);
             setError(true);
           }
         });
@@ -69,8 +69,8 @@ const Sidebar = () => {
     }
   };
 
-  console.log(profile, "profile in sidebar");
-  console.log(selectedImage, "image");
+  //console.log(profile, "profile in sidebar");
+  //console.log(selectedImage, "image");
   return (
     <div className="sidebar">
       {profile ? (
@@ -231,7 +231,7 @@ const Sidebar = () => {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
@@ -242,7 +242,7 @@ const Sidebar = () => {
                 placeholder="email"
                 autoFocus
               />
-            </Form.Group>
+            </Form.Group> */}
           </Form>
         </Modal.Body>
         <Modal.Footer>

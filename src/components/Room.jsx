@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import Navbar from "./Navbar";
 import RoomChats from "./RoomChats";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Form,Button, Modal } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -13,7 +13,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const Room = () => {
   const { currentUser, profile, setProfile, updateCurrentUser } =
-  useContext(AuthContext);
+    useContext(AuthContext);
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [displayName, setDisplayName] = useState(currentUser.displayName);
@@ -52,7 +52,7 @@ const Room = () => {
             });
             setSelectedImage(null);
           } catch (error) {
-            console.log(error);
+            //console.log(error);
             setError(true);
           }
         });
@@ -196,7 +196,7 @@ const Room = () => {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
@@ -207,7 +207,7 @@ const Room = () => {
                 placeholder="email"
                 autoFocus
               />
-            </Form.Group>
+            </Form.Group> */}
           </Form>
         </Modal.Body>
         <Modal.Footer>

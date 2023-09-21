@@ -7,35 +7,35 @@ import { AuthContext } from "../context/AuthContext";
 
 const RoomChat = () => {
   const { data } = useContext(RoomContext);
-  const {currentUser,profile} = useContext(AuthContext)
-  console.log(data, "roomchat");
+  const { currentUser, profile } = useContext(AuthContext);
+  //console.log(data, "roomchat");
   return (
     <div className="chat">
-     {!profile ? (data.RoomId!== "null" ? (
-        <><div className="chatInfo">
-          <span style={{ color: 'white' }}>{data.room?.room_name}</span>
-        </div><RoomMessages /><RoomInput /></>):(
+      {!profile ? (
+        data.RoomId !== "null" ? (
+          <>
+            <div className="chatInfo">
+              <span style={{ color: "white" }}>{data.room?.room_name}</span>
+            </div>
+            <RoomMessages />
+            <RoomInput />
+          </>
+        ) : (
           <div className="chatMessage">
-          
-            <img src={Message} alt=""/>
-          
-          
-          <h1>Welcome,{currentUser.displayName}</h1>
-          <p>Chat. Connect. Chatify.</p>
-         
-        </div>
+            <img src={Message} alt="" />
+
+            <h1>Welcome,{currentUser.displayName}</h1>
+            <p>Chat. Connect. Chatify.</p>
+          </div>
         )
-      ): (
-          <div className="chatMessage">
-          
-            <img src={Message} alt=""/>
-          
-          
+      ) : (
+        <div className="chatMessage">
+          <img src={Message} alt="" />
+
           <h1>Welcome,{currentUser.displayName}</h1>
           <p>Chat. Connect. Chatify.</p>
-         
         </div>
-        ) }
+      )}
     </div>
   );
 };

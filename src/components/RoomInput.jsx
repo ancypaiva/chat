@@ -19,7 +19,7 @@ const RoomInput = () => {
   // const [error,setError] = useState(false)
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(RoomContext);
-  console.log("data----",data);
+  //console.log("data----",data);
   const handleSend = async () => {
     if (image) {
       const storageRef = ref(storage, uuid());
@@ -27,15 +27,14 @@ const RoomInput = () => {
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(
         (error) => {
-          // setError(true);
-          // console.log(error, "error");
+          setError(true);
+          //console.log(error, "error");
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             await updateDoc(doc(db, "chats", data.RoomId), {
               messages: arrayUnion({
                 id: uuid(),
-                text,
                 senderId: currentUser.uid,
                 date: Timestamp.now(),
                 image: downloadURL,
@@ -44,37 +43,36 @@ const RoomInput = () => {
           });
         }
       );
-    } else if(text !== ''){
+    } else if (text !== "") {
       const text1 = text;
-      setText('');
-      console.log("chat id in input", data.RoomId);
+      setText("");
+      //console.log("chat id in input", data.RoomId);
       await updateDoc(doc(db, "chats", data.RoomId), {
-    
         messages: arrayUnion({
           id: uuid(),
-          text:text1,
+          text: text1,
           senderId: currentUser.uid,
           date: Timestamp.now(),
         }),
       });
-      console.log();
+      //console.log();
       await updateDoc(doc(db, "rooms", currentUser.uid), {
         [data.RoomId + ".lastMessage"]: {
-          text:text1,
+          text: text1,
         },
         [data.RoomId + ".date"]: serverTimestamp(),
       });
-      console.log(data, "doc");
-      console.log(data.room.uid, data.RoomId, text, "check");
+      //console.log(data, "doc");
+      //console.log(data.room.uid, data.RoomId, text, "check");
       await updateDoc(doc(db, "userChats", data.user.uid), {
         [data.RoomId + ".lastMessage"]: {
-          text:text1,
+          text: text1,
         },
         [data.RoomId + ".date"]: serverTimestamp(),
       });
     }
-      setText("");
-      setImage(null);
+    setText("");
+    setImage(null);
   };
   return (
     <div className="input">
