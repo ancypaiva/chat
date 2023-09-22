@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../pages/styles.css";
 import Navbar from "./Navbar";
 import Search from "./Search";
@@ -6,7 +6,7 @@ import Chats from "./Chats";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Form, Button, Modal } from "react-bootstrap";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db, storage } from "../firebase";
 import { updateEmail, updateProfile } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,22 +23,37 @@ const Sidebar = () => {
   const [showRequest, setShowRequest] = useState(false);
   const [error, setError] = useState(false);
   const { loading, setLoading } = useState(false);
-  const [displayName, setDisplayName] = useState(currentUser.displayName);
+  const [displayName, setDisplayName] = useState();
+  const [name, setName] = useState();
   const [email, setEmail] = useState(currentUser.email);
   const [selectedImage, setSelectedImage] = useState(null);
   //console.log(email, displayName);
   const handleClose = () => setShow(false);
   const handleCloseRequest = () => setShowRequest(false);
   const handleUpdate = async () => {
-    await updateEmail(auth.currentUser, email);
+    // await updateEmail(auth.currentUser, email);
     const user = await updateDoc(doc(db, "users", currentUser.uid), {
       displayName: displayName,
-      email,
+      // email,
     });
-    updateCurrentUser({ displayName, email });
-
+    updateCurrentUser({...currentUser, displayName });
+    setName(displayName);
+    setDisplayName(displayName);
     setShow(false);
   };
+
+  useEffect(()=>{
+    const result = async()=>{
+
+      const response = await getDoc(doc(db, "users", currentUser.uid));
+      console.log(response.data(), 'res');
+      const res = response.data();
+      console.log(res, 'result');
+      setName(response.data().displayName);
+      setDisplayName(response.data().displayName);
+    }
+    result();
+  },[name, currentUser.uid])
   const handleShow = () => setShow(true);
   const handleRequest = () => setShowRequest(true);
   const handleRoom = () => {
@@ -47,16 +62,22 @@ const Sidebar = () => {
   const handleImageChange = (e) => {
     setSelectedImage(e.target.files[0]);
   };
+  console.log(name, 'displ');
   const handleImageUpload = async () => {
+    console.log(selectedImage, 'select');
     if (selectedImage) {
       const date = new Date().getTime();
       const storageRef = ref(storage, `${displayName + date}`);
 
       await uploadBytesResumable(storageRef, selectedImage).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
+          console.log(downloadURL, 'downl img');
           try {
             //Update profile
             await updateProfile(auth.currentUser, {
+              photoURL: downloadURL,
+            });
+            await updateDoc(doc(db,'users',currentUser.uid),{
               photoURL: downloadURL,
             });
             setSelectedImage(null);
@@ -155,7 +176,7 @@ const Sidebar = () => {
                 </button>
               )}
               <p style={{ color: "#e1d3ff" }}>Your name</p>
-              <h3>{currentUser.displayName}</h3>
+              <h3>{name}</h3>
               <p style={{ color: "#e1d3ff" }}>Your email</p>
               <h6>{currentUser.email}</h6>
               <Button
@@ -175,23 +196,7 @@ const Sidebar = () => {
           <Chats />
           <div className="sidebar-footer">
             <div
-              style={{
-                bottom: 0,
-                right: "50px",
-                background: "rgba(0, 0, 0, 0.5)",
-                borderRadius: "50%",
-                padding: "5px",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                height: "50px",
-                width: "50px",
-                marginLeft: "auto",
-                marginRight: "10px",
-                marginBottom: "10px",
-              }}
+              className="fauser"
               onClick={handleRequest}
             >
               <FontAwesomeIcon icon={faUserFriends} />

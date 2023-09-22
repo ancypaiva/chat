@@ -86,6 +86,25 @@ body {
   margin-top: auto;
   display: block;
 }
+.fauser{
+    bottom: 0;
+    right: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+   justify-content: center;
+    color: white;
+    height: 50px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+}
+
 /* Chat */
 .chat {
   flex: 2;
@@ -125,7 +144,14 @@ body {
 .chat img {
   width: 30%;
 }
-
+.buttonUnfriend {
+  background-color: #4e28a1 !important;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 5px 10px;
+}
 /* Navbar */
 .navbar {
   display: flex;
@@ -153,13 +179,20 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
-
+.navuser{
+    color: white;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-right: -93px;
+    position: relative;
+}
 .count {
   position: absolute;
   background-color: #dc2626;
-  right: 4.0rem; 
+  right: -5px; 
 
-  bottom: 1.5rem; 
+  bottom: 13px; 
   font-size: 12px;
 
   width: 18px;
@@ -432,4 +465,79 @@ body {
   overflow-y: auto;
   border: 1px solid #ccc; /* Optional: Add a border for better visibility */
   padding: 10px; /* Optional: Add padding for spacing */
+}
+/* Add your global styles here */
+
+/* For screens up to 768px */
+@media screen and (max-width: 768px) {
+  /* Navbar */
+  .navbar {
+    display: flex;
+    align-items: center;
+    height: auto;
+    padding: 10px;
+  }
+.navuser{
+
+}
+  .navbar .user {
+    margin-top: 10px;
+  }
+
+
+.navuser {
+    margin-right: 0; /* Remove the negative margin on smaller screens */
+  }
+
+  .count {
+    right: -5px; /* Adjust the position as needed for smaller screens */
+    bottom: 1rem;
+  }
+  /* Login & SignUp */
+  .form-container {
+    padding: 1rem;
+  }
+
+  .main_div {
+    margin: 0.5rem 0;
+  }
+
+  .form {
+    margin-bottom: 0.5rem;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 30%;
+    border-right: none;
+  }
+
+  /* Chat */
+  .chat {
+    flex: 1; /* Adjust the chat size as needed */
+  }
+
+  .chat .chatMessage {
+    text-align: center;
+  }
+
+  .chat img {
+    width: 70%;
+  }
+
+  /* Add more responsive adjustments as needed for other sections */
+}
+
+/* For screens between 768px and 992px (Tablet size) */
+@media screen and (min-width: 769px) and (max-width: 992px) {
+  /* Add your responsive styles here */
+}
+
+/* For screens larger than 992px (Desktop size) */
+@media screen and (min-width: 993px) {
+  /* Add your responsive styles here */
 }

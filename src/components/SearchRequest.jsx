@@ -66,16 +66,6 @@ const SearchRequest = () => {
         }
       });
 
-      // The allUsers array now contains usernames not in friendList
-      //console.log(allUsers, "list");
-      // Filter users based on the search term using regex
-      // const regex = new RegExp(searchTerm, "i"); // "i" for case-insensitive search
-      // const matchingUsers = allUsers.filter((user) =>
-      //   regex.test(user.displayName)
-      // );
-
-     
-
       //console.log("response ----", matchingUsers);
       setUsers(allUsers); // Update the state with found users
     } catch (error) {

@@ -9,11 +9,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Form, Modal } from "react-bootstrap";
 import AcceptRequest from "./AcceptRequest";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 
 const Navbar = () => {
   const { currentUser, setProfile } = useContext(AuthContext);
   const [pendingFriends, setPendingFriends] = useState([]);
+  const [name, setName] = useState(currentUser.displayName);
   const [sentFriendRequests,setSentFriendRequests] = useState([])
   const [friendList,setFriendList] = useState([])
   const [show, setShow] = useState(false);
@@ -22,6 +23,17 @@ const Navbar = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const navigate = useNavigate();
+  useEffect(()=>{
+    const result = async()=>{
+
+      const response = await getDoc(doc(db, "users", currentUser.uid));
+      console.log(response.data(), 'res');
+      const res = response.data();
+      console.log(res, 'result');
+      setName(response.data().displayName);
+    }
+    result();
+  },[name, currentUser.uid])
   useEffect(() => {
     if (currentUser.uid) {
       //console.log(currentUser.uid, "userffffffffff");
@@ -66,13 +78,7 @@ const Navbar = () => {
       <span className="logo">Chat</span>
       <button
         onClick={handleShow}
-        style={{
-          color: "white",
-          backgroundColor: "transparent",
-          border: "none",
-          cursor: "pointer",
-          marginRight: "-93px",
-        }}
+        className="navuser"
       >
         <FontAwesomeIcon icon={faUser} />
         <div className="count">{count ? count : "0"}</div>
@@ -96,7 +102,7 @@ const Navbar = () => {
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.ItemText style={{ fontWeight: "bold" }}>
-            {currentUser.displayName}
+            {name}
           </Dropdown.ItemText>
           <Dropdown.Item onClick={() => profiles()}>Profile</Dropdown.Item>
           <Dropdown.Item

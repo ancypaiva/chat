@@ -8,6 +8,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [profile, setProfile] = useState(false);
   const [pendingFriendCount, setPendingFriendCount] = useState(false);
+  const [unfriending, setUnfriending] = useState(false);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -35,7 +36,7 @@ export const AuthContextProvider = ({ children }) => {
         setProfile,
         updateCurrentUser,
         pendingFriendCount,
-        setPendingFriendCount,
+        setPendingFriendCount,unfriending, setUnfriending
       }}
     >
       {children}

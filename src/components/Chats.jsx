@@ -1,22 +1,26 @@
 import {
+  arrayRemove,
   collection,
+  deleteField,
   doc,
   getDoc,
   getDocs,
   onSnapshot,
   query,
+  updateDoc,
 } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
+import Swal from "sweetalert2";
 
 const Chats = () => {
   const [chats, setChats] = useState([]);
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { currentUser, pendingFriendCount } = useContext(AuthContext);
+  const { currentUser, pendingFriendCount,unfriending } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
@@ -61,18 +65,17 @@ const Chats = () => {
     };
 
     currentUser.uid && fetchUsers();
-  }, [currentUser.uid, pendingFriendCount]);
+  }, [currentUser.uid, pendingFriendCount,unfriending]);
 
   // Filter users based on searchTerm
   const filteredUsers = users.filter((user) =>
     user.displayName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSelect = (user) => {
-    dispatch({ type: "CHANGE_USER", payload: user });
-    setSearchTerm("");
+    );
+    const handleSelect = (user) => {
+      dispatch({ type: "CHANGE_USER", payload: user });
+      setSearchTerm("");
+      console.log(user.photoURL,'photo');
   };
-
   return (
     <div className="chats">
       <div className="search">
@@ -98,6 +101,13 @@ const Chats = () => {
               <img src={user.photoURL} alt="" />
               <span style={{ color: "white" }}>{user.displayName}</span>
               <span style={{ color: "black" }}>{user.lastMessage}</span>
+              {/* <button
+                onClick={() => handleUnfriend(user.uid)}
+                className="button"
+                style={{ marginLeft: "auto" }}
+              >
+                Unfriend
+              </button> */}
             </div>
           ))
         )}

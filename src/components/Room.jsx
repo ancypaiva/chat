@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import RoomChats from "./RoomChats";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { auth, db, storage } from "../firebase";
 import { updateEmail, updateProfile } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const Room = () => {
   const { currentUser, profile, setProfile, updateCurrentUser } =
@@ -17,19 +17,31 @@ const Room = () => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [displayName, setDisplayName] = useState(currentUser.displayName);
+  const [name, setName] = useState(currentUser.displayName);
   const [email, setEmail] = useState(currentUser.email);
   const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
   const handleUpdate = async () => {
-    await updateEmail(auth.currentUser, email);
+    // await updateEmail(auth.currentUser, email);
     const user = await updateDoc(doc(db, "users", currentUser.uid), {
       displayName: displayName,
-      email,
+      // email,
     });
-    updateCurrentUser({ displayName, email });
-
+    updateCurrentUser({ ...currentUser,displayName });
+    setName(displayName);
     setShow(false);
   };
+  useEffect(()=>{
+    const result = async()=>{
+
+      const response = await getDoc(doc(db, "users", currentUser.uid));
+      console.log(response.data(), 'res');
+      const res = response.data();
+      console.log(res, 'result');
+      setName(response.data().displayName);
+    }
+    result();
+  },[name, currentUser.uid])
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleChat = () => {
@@ -143,7 +155,7 @@ const Room = () => {
                 </button>
               )}
               <p style={{ color: "#e1d3ff" }}>Your name</p>
-              <h3>{currentUser.displayName}</h3>
+              <h3>{name}</h3>
               <p style={{ color: "#e1d3ff" }}>Your email</p>
               <h6>{currentUser.email}</h6>
               <Button
@@ -192,7 +204,7 @@ const Room = () => {
                   setDisplayName(e.target.value);
                 }}
                 placeholder="name"
-                value={displayName}
+                value={name}
                 autoFocus
               />
             </Form.Group>

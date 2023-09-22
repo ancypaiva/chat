@@ -33,7 +33,7 @@ const AcceptRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
-  const { currentUser, setPendingFriendCount } = useContext(AuthContext);
+  const { currentUser, setPendingFriendCount,setCombinedUid } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
   //console.log(data, "dta");
   useEffect(() => {
@@ -165,7 +165,7 @@ const AcceptRequest = () => {
       currentUser.uid > user.id
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
-
+        setCombinedUid()
     try {
       console.log(combinedId, "check combinedid");
       const response = await getDoc(doc(db, "chats", combinedId));
@@ -257,5 +257,4 @@ const AcceptRequest = () => {
     </div>
   );
 };
-
 export default AcceptRequest;
