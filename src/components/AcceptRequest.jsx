@@ -203,7 +203,9 @@ const AcceptRequest = () => {
       {error && <span>User not Found</span>}
       <div className="userListContainer">
         <div className="userList">
-          {users.map((user) => (
+          {users.length == 0?(<p>No request</p>):(
+
+          (users.map((user) => (
             <div
               key={user.uid}
               className="userchat"
@@ -251,7 +253,8 @@ const AcceptRequest = () => {
                 )}
               </div>
             </div>
-          ))}
+          )))
+          )}
         </div>
       </div>
     </div>

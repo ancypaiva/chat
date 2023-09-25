@@ -141,7 +141,10 @@ body {
   background-color: #f1ebff;
   font-weight: bolder;
 }
-.chat img {
+/* .chat img {
+  width: 30%;
+} */
+.chatimage{
   width: 30%;
 }
 .buttonUnfriend {
@@ -339,9 +342,9 @@ body {
   max-width: max-content;
 }
 
-.messages .message .messageContent img {
+/* .messages .message .messageContent img {
   width: 50%;
-}
+} */
 
 .messages .message.owner {
   flex-direction: row-reverse;
@@ -356,6 +359,12 @@ body {
   }
 }
 
+
+.messageImage {
+  width: 300px; 
+  height: auto;
+  display: block; 
+}
 /* Input */
 .input {
   height: 50px;
@@ -525,10 +534,8 @@ body {
     text-align: center;
   }
 
-  .chat img {
-    width: 70%;
-  }
-
+ 
+  
   /* Add more responsive adjustments as needed for other sections */
 }
 

@@ -19,7 +19,6 @@ const Input = () => {
   const [text, setText] = useState("");
   const [isValid, setIsValid] = useState(null);
   const [image, setImage] = useState(null);
-  // const [error,setError] = useState(false)
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 

@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./styles.css";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const { currentUser } = useContext(AuthContext);
+ 
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
+  useEffect(()=>{
+    console.log("1");
+    if(currentUser?.uid){
+      console.log("2");
+
+    navigate('/home');
+    }
+      },[currentUser])
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -43,6 +54,7 @@ const Login = () => {
     // Call signInAndNavigate with your authentication object and user credentials
     signInAndNavigate(auth, email, password);
   };
+
   return (
     <div className="form-container">
       <Header/>

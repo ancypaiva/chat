@@ -101,13 +101,6 @@ const Chats = () => {
               <img src={user.photoURL} alt="" />
               <span style={{ color: "white" }}>{user.displayName}</span>
               <span style={{ color: "black" }}>{user.lastMessage}</span>
-              {/* <button
-                onClick={() => handleUnfriend(user.uid)}
-                className="button"
-                style={{ marginLeft: "auto" }}
-              >
-                Unfriend
-              </button> */}
             </div>
           ))
         )}

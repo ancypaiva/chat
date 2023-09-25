@@ -162,7 +162,7 @@ const Chat = () => {
           </>
         ) : (
           <div className="chatMessage">
-            <img src={Message} alt="" />
+            <img src={Message} alt="" className="chatimage"/>
 
             <h1>Welcome,{currentUser.displayName}</h1>
             <p>Chat. Connect. Chatify.</p>
